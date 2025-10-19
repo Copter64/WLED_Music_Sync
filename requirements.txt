@@ -1,0 +1,7 @@
+pygame
+aiohttp
+pyyaml
+python-dotenv
+librosa
+numpy
+matplotlib
