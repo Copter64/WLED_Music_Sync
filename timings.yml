@@ -1,0 +1,296 @@
+songs:
+  "01 - TAKEDOWN (JEONGYEON, JIHYO, CHAEYOUNG).mp3":
+    - time: 0.1
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 14
+        mainscene:
+          preset: 14 
+    - time: 7.8
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 2
+        mainscene:
+          preset: 7
+    - time: 15.2
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 3
+        mainscene:
+          preset: 4
+    - time: 21.6
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 1
+        mainscene:
+          preset: 1
+    - time: 35.8
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 10
+        mainscene:
+          preset: 5
+    - time: 36.8
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 14
+        mainscene:
+          preset: 1
+    - time: 43.4
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 11
+        mainscene:
+          preset: 4
+    - time: 49.3
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 12
+        mainscene:
+          preset: 6
+    - time: 51.2
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 10
+        mainscene:
+          preset: 1
+    - time: 52
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 1
+        mainscene:
+          preset: 1
+    - time: 64.9
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 13
+        mainscene:
+          preset: 7
+    - time: 84
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 15
+        mainscene:
+          preset: 1
+    - time: 92.2
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 11
+        mainscene:
+          preset: 4
+    - time: 100.8
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 10
+        mainscene:
+          preset: 8
+    - time: 102.3
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 1
+        mainscene:
+          preset: 1
+    - time: 115.2
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 12
+        mainscene:
+          preset: 9
+    - time: 128.4
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 14
+        mainscene:
+          preset: 1
+    - time: 139
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 11
+        mainscene:
+          preset: 4
+    - time: 145.2
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 12
+        mainscene:
+          preset: 9
+    - time: 147
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 10
+        mainscene:
+          preset: 10
+    - time: 148
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 1
+        mainscene:
+          preset: 1
+    - time: 160
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 11
+        mainscene:
+          preset: 4
+    - time: 174.7
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 12
+        mainscene:
+          preset: 6
+
+
+  "02 - How It's Done.mp3":
+    - time: 0.0
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 1
+        derpy_blade:
+          scene:
+            on: true
+            fx: 85
+            bri: 255
+
+  "03 - Soda Pop.mp3":
+    - time: 0.0
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 1
+        derpy_blade:
+          scene:
+            on: true
+            fx: 85
+            bri: 255
+
+  # "04 - Golden.mp3":
+  #   - time: 0.0
+  #     controllers:
+  #       ["sword1", "sword2"]:
+  #         preset: 1
+  #       derpy_blade:
+  #         scene:
+  #           on: true
+  #           fx: 85
+  #           bri: 255
+  #   - time: 8.5
+  #     controllers:
+  #       ["sword1", "sword2"]:
+  #         preset_name: "PurpleFade"
+  #       derpy_blade:
+  #         scene:
+  #           on: true
+  #           fx: 91
+  #           bri: 255
+
+  # "05 - Strategy.mp3":
+  #   - time: 0.0
+  #     controllers:
+  #       ["sword1", "sword2"]:
+  #         preset: 1
+  #       derpy_blade:
+  #         scene:
+  #           on: true
+  #           fx: 85
+  #           bri: 255
+
+  # "06 - Takedown.mp3":
+  #   - time: 0.0
+  #     controllers:
+  #       ["sword1", "sword2"]:
+  #         preset: 1
+  #       derpy_blade:
+  #         scene:
+  #           on: true
+  #           fx: 85
+  #           bri: 255
+
+  # "07 - Your Idol.mp3":
+  #   - time: 0.0
+  #     controllers:
+  #       ["sword1", "sword2"]:
+  #         preset: 1
+  #       derpy_blade:
+  #         scene:
+  #           on: true
+  #           fx: 85
+  #           bri: 255
+
+  # "08 - Free.mp3":
+  #   - time: 0.0
+  #     controllers:
+  #       ["sword1", "sword2"]:
+  #         preset: 1
+  #       derpy_blade:
+  #         scene:
+  #           on: true
+  #           fx: 85
+  #           bri: 255
+
+  # "09 - What It Sounds Like.mp3":
+  #   - time: 0.0
+  #     controllers:
+  #       ["sword1", "sword2"]:
+  #         preset: 1
+  #       derpy_blade:
+  #         scene:
+  #           on: true
+  #           fx: 85
+  #           bri: 255
+
+  # "10 - 사랑인가 봐 Love, Maybe.mp3":
+  #   - time: 0.0
+  #     controllers:
+  #       ["sword1", "sword2"]:
+  #         preset: 1
+  #       derpy_blade:
+  #         scene:
+  #           on: true
+  #           fx: 85
+  #           bri: 255
+
+  # "11 - 오솔길 Path.mp3":
+  #   - time: 0.0
+  #     controllers:
+  #       ["sword1", "sword2"]:
+  #         preset: 1
+  #       derpy_blade:
+  #         scene:
+  #           on: true
+  #           fx: 85
+  #           bri: 255
+
+  # "12 - Score Suite.mp3":
+  #   - time: 0.0
+  #     controllers:
+  #       ["sword1", "sword2"]:
+  #         preset: 1
+  #       derpy_blade:
+  #         scene:
+  #           on: true
+  #           fx: 85
+  #           bri: 255
