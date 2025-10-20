@@ -32,7 +32,10 @@ logging.basicConfig(
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
 )
 LOGGER = logging.getLogger("music_wled_player")
-WLED_HTTP_TIMEOUT = 5
+# Timeouts in seconds
+WLED_HTTP_TIMEOUT = 0.5  # Total timeout for any HTTP request
+WLED_CONNECT_TIMEOUT = 0.2  # Timeout for establishing connection
+WLED_READ_TIMEOUT = 0.3  # Timeout for reading response
 # endregion
 
 # region Data Models
@@ -66,8 +69,20 @@ class WLEDController:
 
     async def _get_session(self) -> aiohttp.ClientSession:
         if self._internal_session is None:
-            timeout = aiohttp.ClientTimeout(total=WLED_HTTP_TIMEOUT)
-            self._internal_session = aiohttp.ClientSession(timeout=timeout)
+            # Use more specific timeouts to prevent hanging
+            timeout = aiohttp.ClientTimeout(
+                total=WLED_HTTP_TIMEOUT,
+                connect=WLED_CONNECT_TIMEOUT,
+                sock_read=WLED_READ_TIMEOUT
+            )
+            connector = aiohttp.TCPConnector(
+                force_close=True,  # Don't keep connections alive
+                enable_cleanup_closed=True  # Clean up closed connections
+            )
+            self._internal_session = aiohttp.ClientSession(
+                timeout=timeout,
+                connector=connector
+            )
         return self._internal_session
 
     async def apply_scene(self, scene: Dict[str, Any], dry_run: bool = False) -> bool:
@@ -369,15 +384,50 @@ class SceneScheduler:
             await self._dispatch_event(event)
 
     async def _dispatch_event(self, event: TimedEvent) -> None:
+        dispatch_start = time.perf_counter()
         LOGGER.info("Dispatching event @%.2fs", event.time_s)
-        coros = []
+        
+        # Prepare all requests in parallel
+        tasks = []
         for cscene in event.controller_scenes:
             ctrl = self.controllers.get(cscene.controller_id)
             if not ctrl:
                 LOGGER.warning("Controller %s not defined", cscene.controller_id)
                 continue
-            coros.append(ctrl.apply_scene(cscene.scene, dry_run=self.dry_run))
-        await asyncio.gather(*coros, return_exceptions=True)
+                
+            # Create task for each controller
+            task = asyncio.create_task(
+                ctrl.apply_scene(cscene.scene, dry_run=self.dry_run)
+            )
+            tasks.append((cscene.controller_id, task))
+        
+        # Wait for all tasks with a timeout
+        if tasks:
+            # Use wait instead of gather to handle timeouts better
+            done, pending = await asyncio.wait(
+                [t for _, t in tasks],
+                timeout=WLED_HTTP_TIMEOUT
+            )
+            
+            # Cancel any pending tasks that didn't complete in time
+            for pending_task in pending:
+                pending_task.cancel()
+            
+            # Log results
+            total_time = time.perf_counter() - dispatch_start
+            success_count = len(done)
+            timeout_count = len(pending)
+            
+            if timeout_count:
+                LOGGER.warning(
+                    "Event @%.2fs: %d/%d controllers responded (%.3fs), %d timed out",
+                    event.time_s, success_count, len(tasks), total_time, timeout_count
+                )
+            else:
+                LOGGER.debug(
+                    "Event @%.2fs: All %d controllers responded in %.3fs",
+                    event.time_s, len(tasks), total_time
+                )
 
     async def close(self) -> None:
         for c in self.controllers.values():

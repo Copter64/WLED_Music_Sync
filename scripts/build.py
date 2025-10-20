@@ -43,8 +43,14 @@ def build_package():
 def build_executable():
     """Build executable using PyInstaller"""
     print("Building executable...")
+    # Use pyinstaller from virtual environment
+    if os.name == 'nt':  # Windows
+        pyinstaller_path = '.venv\\Scripts\\pyinstaller'
+    else:  # Unix-like
+        pyinstaller_path = '.venv/bin/pyinstaller'
+    
     subprocess.run([
-        'pyinstaller',
+        pyinstaller_path,
         '--name=halloween-leds',
         '--onefile',
         '--add-data=presets:presets',
@@ -61,12 +67,24 @@ def create_release():
     print("Creating release package...")
     os.makedirs('release', exist_ok=True)
     
-    # Copy executable
-    shutil.copy('dist/halloween-leds.exe', 'release/')
+    # Create release directory structure
+    os.makedirs('release/songs', exist_ok=True)
+    os.makedirs('release/presets', exist_ok=True)
+    os.makedirs('release/docs', exist_ok=True)
     
-    # Copy presets and example files
+    # Copy executable and main files
+    shutil.copy('dist/halloween-leds.exe', 'release/')
+    shutil.copy('QUICKSTART.md', 'release/')
+    shutil.copy('timings.yml', 'release/')
+    
+    # Copy documentation
+    shutil.copy('docs/usage.md', 'release/docs/')
+    
+    # Copy presets
     shutil.copytree('presets', 'release/presets', dirs_exist_ok=True)
-    shutil.copy('timings.yml', 'release/timings.yml')
+    
+    # Copy music folder example structure
+    shutil.copytree('KPopDH', 'release/songs', dirs_exist_ok=True)
     
     # Create example .env file
     with open('release/.env.example', 'w') as f:
@@ -74,16 +92,25 @@ def create_release():
     
     # Create README
     with open('release/README.txt', 'w') as f:
-        f.write("""Halloween LEDs - Quick Start Guide
+        f.write("""Halloween LEDs - Installation Instructions
 
-1. Rename .env.example to .env and update with your WLED controller IPs
-2. Run halloween-leds.exe --timings timings.yml
-3. Use the following controls:
-   - Space: Play/Pause
-   - Left/Right: Seek ±5s
-   - Up/Down: Volume
-   - R: Restart
-   - Q: Quit
+1. Extract all files from this ZIP archive to a folder
+2. Rename .env.example to .env and update with your WLED controller IPs
+3. Place your music files in the 'songs' folder
+4. See QUICKSTART.md for detailed usage instructions
+
+Directory Structure:
+- halloween-leds.exe : Main application
+- .env              : Controller configuration (rename from .env.example)
+- timings.yml       : Light show timing configuration
+- songs/           : Place your music files here
+- presets/         : WLED preset files
+- docs/            : Full documentation
+- QUICKSTART.md    : Quick start guide
+
+For detailed instructions and troubleshooting, see:
+- QUICKSTART.md for basic usage
+- docs/usage.md for complete documentation
 """)
     
     # Create ZIP archive

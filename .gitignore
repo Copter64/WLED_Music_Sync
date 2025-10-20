@@ -2,3 +2,14 @@
 *.mp3
 *.json
 /scratchspace/*
+.venv/*
+.venv*
+build/*
+KPopDH/*
+*.exe
+release/*
+*.zip
+*.spec
+*.yml
+__pycache__/
+timings.yml
