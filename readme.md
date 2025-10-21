@@ -54,3 +54,51 @@ Or if using the executable:
 ```
 halloween-leds --timings timings.yml
 ```
+
+## SMPTE Timecode Support
+
+The application now includes support for SMPTE timecode synchronization, allowing you to sync your WLED effects with external timecode sources such as video systems, audio workstations, or show control systems.
+
+### Using Timecode Sync
+
+1. Install the additional dependency:
+   ```
+   pip install timecode
+   ```
+
+2. Configure your timecode settings in your application:
+   ```python
+   from halloween_leds.timecode_sync import TimecodeSync, TimecodeConfig
+
+   config = TimecodeConfig(
+       framerate=24,  # Set to match your timecode source (24, 25, 29.97, 30)
+       drop_frame=False,
+       start_tc="00:00:00:00"
+   )
+   ```
+
+3. Initialize the timecode sync with your existing timing file:
+   ```python
+   tc_sync = TimecodeSync.from_yaml_file("timings.yml", config)
+   ```
+
+### Example Usage
+
+Check out `examples/timecode_example.py` for a complete example of how to:
+- Set up timecode synchronization
+- Connect to WLED controllers
+- Handle timecode-triggered events
+
+### Features
+- Support for various framerates (24, 25, 29.97, 30 fps)
+- Drop-frame and non-drop-frame timecode
+- Configurable starting timecode
+- Asynchronous timecode monitoring
+- Compatible with existing YAML timing files
+- Seamless integration with current WLED control system
+
+### Common Timecode Sources
+- Audio interfaces with LTC input
+- Video systems
+- Show control software
+- Network timecode (NTP)
