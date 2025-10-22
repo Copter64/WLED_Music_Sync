@@ -24,7 +24,6 @@ from typing import Any, Dict, List, Optional
 import aiohttp
 import pygame
 import yaml
-from dotenv import load_dotenv
 
 # region Logging
 logging.basicConfig(
@@ -366,7 +365,7 @@ class MusicPlayer:
 # region Scene Scheduler
 class SceneScheduler:
     """Schedules events and dispatches controller scenes."""
-    def __init__(self, controllers: Dict[str, WLEDController], dry_run: bool = False):
+    def __init__(self, controllers: Dict[str, List[WLEDController]], dry_run: bool = False):
         self.controllers = controllers
         self.dry_run = dry_run
 
@@ -390,16 +389,17 @@ class SceneScheduler:
         # Prepare all requests in parallel
         tasks = []
         for cscene in event.controller_scenes:
-            ctrl = self.controllers.get(cscene.controller_id)
-            if not ctrl:
+            controllers = self.controllers.get(cscene.controller_id, [])
+            if not controllers:
                 LOGGER.warning("Controller %s not defined", cscene.controller_id)
                 continue
                 
-            # Create task for each controller
-            task = asyncio.create_task(
-                ctrl.apply_scene(cscene.scene, dry_run=self.dry_run)
-            )
-            tasks.append((cscene.controller_id, task))
+            # Create tasks for all instances of this controller
+            for ctrl in controllers:
+                task = asyncio.create_task(
+                    ctrl.apply_scene(cscene.scene, dry_run=self.dry_run)
+                )
+                tasks.append((f"{cscene.controller_id}_{ctrl.base_url}", task))
         
         # Wait for all tasks with a timeout
         if tasks:
@@ -563,8 +563,7 @@ def parse_args() -> argparse.Namespace:
     return p.parse_args()
 
 async def main_async(args: argparse.Namespace) -> None:
-    load_dotenv()
-    # load timings
+    # Load timings
     timing_map = load_timings_from_yaml(args.timings)
     yaml_dir = os.path.dirname(os.path.abspath(args.timings))
     
@@ -577,14 +576,19 @@ async def main_async(args: argparse.Namespace) -> None:
     events = timing_map[song_key]
     LOGGER.info("Playing %s with %d events", song_key, len(events))
     
-    # build controllers from env
-    # Expect env like: WLED_controllers='trunk_master=http://192.168.1.186,derpy_blade=http://192.168.1.187'
-    controller_env = os.getenv("WLED_CONTROLLERS", "")
-    controllers: Dict[str, WLEDController] = {}
-    for entry in controller_env.split(","):
-        if "=" in entry:
-            cid, url = entry.split("=", 1)
-            controllers[cid.strip()] = WLEDController(cid.strip(), url.strip())
+    # Load controllers from YAML configuration
+    from halloween_leds.controller_config import load_controller_config
+    controller_configs = load_controller_config()
+    
+    # Initialize controllers
+    controllers: Dict[str, List[WLEDController]] = {}
+    # Create controller instances for each URL
+    for controller_id, config in controller_configs.items():
+        controllers[controller_id] = [
+            WLEDController(controller_id, url.strip())
+            for url in config.urls
+        ]
+        LOGGER.info(f"Initialized {controller_id} ({config.description}) with {len(config.urls)} URLs")
     LOGGER.info("Loaded controllers: %s", list(controllers.keys()))
 
     player = MusicPlayer()

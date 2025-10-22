@@ -1,4 +1,166 @@
 songs:
+  "01 - TAKEDOWN (JEONGYEON, JIHYO, CHAEYOUNG).mp3":
+    - time: 0.1
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 14  # Rumi Normal
+        mainscene:
+          preset: 11  # Solid - Amber Glow
+    - time: 7.6
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 2  # Preset 2
+        mainscene:
+          preset: 7  # Subway Train
+    - time: 15
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 3  # Rainbow
+        mainscene:
+          preset: 4  # Section Fire
+    - time: 21.4
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 1  # Preset 1
+        mainscene:
+          preset: 1  # Solid - Amber Glow
+    - time: 35.6
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 10  # Flash
+        mainscene:
+          preset: 5  # Warm Bright
+    - time: 36.6
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 14  # Rumi Normal
+        mainscene:
+          preset: 1  # Solid - Amber Glow
+    - time: 43.2
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 11  # Faster
+        mainscene:
+          preset: 4  # Section Fire
+    - time: 49.1
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 12  # Black
+        mainscene:
+          preset: 6  # MovieTime
+    - time: 51
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 10  # Flash
+        mainscene:
+          preset: 1  # Solid - Amber Glow
+    - time: 52
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 1  # Preset 1
+        mainscene:
+          preset: 1  # Solid - Amber Glow
+    - time: 64.7
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 13
+        mainscene:
+          preset: 7  # Subway Train
+    - time: 83.8
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 15  # HalfSpeed
+        mainscene:
+          preset: 1  # Solid - Amber Glow
+    - time: 92
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 11  # Faster
+        mainscene:
+          preset: 4  # Section Fire
+    - time: 100.6
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 10  # Flash
+        mainscene:
+          preset: 8  # Bright Room
+    - time: 102.1
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 1  # Preset 1
+        mainscene:
+          preset: 1  # Solid - Amber Glow
+    - time: 115
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 3  # Preset 3
+        mainscene:
+          preset: 9  # AuroraEffect
+    - time: 128.2
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 14  # Rumi Normal
+        mainscene:
+          preset: 1  # Solid - Amber Glow
+    - time: 138.8
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 11  # Faster
+        mainscene:
+          preset: 4  # Section Fire
+    - time: 145
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 12  # Black
+        mainscene:
+          preset: 9  # AuroraEffect
+    - time: 146.8
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 10  # Flash
+        mainscene:
+          preset: 10  # FLASH
+    - time: 147.8
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 1  # Preset 1
+        mainscene:
+          preset: 1  # Solid - Amber Glow
+    - time: 159.8
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 11  # Faster
+        mainscene:
+          preset: 4  # Section Fire
+    - time: 174.5
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 12  # Black
+        mainscene:
+          preset: 6  # MovieTime
   "04 - Golden.mp3":
     - time: 0.1
       controllers:
@@ -211,166 +373,107 @@ songs:
           preset: 12  # Black
         mainscene:
           preset: 9  # AuroraEffect
-  "01 - TAKEDOWN (JEONGYEON, JIHYO, CHAEYOUNG).mp3":
+  "09 - What It Sounds Like - shorter.mp3":
     - time: 0.1
       controllers:
         group:
           controllers: [sword1, sword2, sword3]
-          preset: 14  # Rumi Normal
-        mainscene:
-          preset: 14   # Rumi Normal
-    - time: 7.6
-      controllers:
-        group:
-          controllers: [sword1, sword2, sword3]
-          preset: 2  # Preset 2
-        mainscene:
-          preset: 7  # Subway Train
-    - time: 15
-      controllers:
-        group:
-          controllers: [sword1, sword2, sword3]
-          preset: 3  # Preset 3
-        mainscene:
-          preset: 4  # Section Fire
-    - time: 21.4
-      controllers:
-        group:
-          controllers: [sword1, sword2, sword3]
-          preset: 1  # Preset 1
-        mainscene:
-          preset: 1  # Solid - Amber Glow
-    - time: 35.6
-      controllers:
-        group:
-          controllers: [sword1, sword2, sword3]
-          preset: 10  # Flash
-        mainscene:
-          preset: 5  # Warm Bright
-    - time: 36.6
-      controllers:
-        group:
-          controllers: [sword1, sword2, sword3]
-          preset: 14  # Rumi Normal
-        mainscene:
-          preset: 1  # Solid - Amber Glow
-    - time: 43.2
-      controllers:
-        group:
-          controllers: [sword1, sword2, sword3]
-          preset: 11  # Faster
-        mainscene:
-          preset: 4  # Section Fire
-    - time: 49.1
-      controllers:
-        group:
-          controllers: [sword1, sword2, sword3]
           preset: 12  # Black
         mainscene:
-          preset: 6  # MovieTime
-    - time: 51
+          preset: 12 # Red Aura
+    - time: 3
+      controllers:
+        sword1:
+          preset: 16  # Rumi Lowered
+    - time: 19.66
+      controllers:
+        sword1:
+          preset: 1  # Slightly Brighter
+    - time: 35.12
+      controllers:
+        sword1:
+          preset: 16  # Rumi Lowered
+        mainscene:
+          preset: 12 # Red Aura
+    - time: 39.23
       controllers:
         group:
           controllers: [sword1, sword2, sword3]
           preset: 10  # Flash
         mainscene:
-          preset: 1  # Solid - Amber Glow
-    - time: 52
+          preset: 10 # Flash
+    - time: 40
       controllers:
-        group:
-          controllers: [sword1, sword2, sword3]
-          preset: 1  # Preset 1
-        mainscene:
-          preset: 1  # Solid - Amber Glow
-    - time: 64.7
-      controllers:
-        group:
-          controllers: [sword1, sword2, sword3]
-          preset: 13
-        mainscene:
-          preset: 7  # Subway Train
-    - time: 83.8
-      controllers:
-        group:
-          controllers: [sword1, sword2, sword3]
-          preset: 15  # HalfSpeed
-        mainscene:
-          preset: 1  # Solid - Amber Glow
-    - time: 92
-      controllers:
-        group:
-          controllers: [sword1, sword2, sword3]
-          preset: 11  # Faster
-        mainscene:
-          preset: 4  # Section Fire
-    - time: 100.6
-      controllers:
-        group:
-          controllers: [sword1, sword2, sword3]
-          preset: 10  # Flash
-        mainscene:
-          preset: 8  # Bright Room
-    - time: 102.1
-      controllers:
-        group:
-          controllers: [sword1, sword2, sword3]
-          preset: 1  # Preset 1
-        mainscene:
-          preset: 1  # Solid - Amber Glow
-    - time: 115
-      controllers:
-        group:
-          controllers: [sword1, sword2, sword3]
-          preset: 3  # Preset 3
-        mainscene:
-          preset: 9  # AuroraEffect
-    - time: 128.2
-      controllers:
-        group:
-          controllers: [sword1, sword2, sword3]
+        sword1:
           preset: 14  # Rumi Normal
+        sword2:
+          preset: 16  # Rumi Normal
+        sword3:
+          preset: 16  # Rumi Normal
         mainscene:
-          preset: 1  # Solid - Amber Glow
-    - time: 138.8
+          preset: 12 # Red Aura
+    - time: 57.33
+      controllers:
+        sword1:
+          preset: 16  # Rumi Lowered
+        sword2:
+          preset: 1  # BluePink Movement
+    - time: 61.79
+      controllers:
+        sword2:
+          preset: 16  # Rumi Lowered
+        sword3:
+          preset: 1 # BluePink Movement
+    - time: 66.48
+      controllers:
+        sword1:
+          preset: 1  # BluePink Movement
+        sword3:
+          preset: 16 # Rumi Lowered
+    - time: 68.65
       controllers:
         group:
           controllers: [sword1, sword2, sword3]
-          preset: 11  # Faster
-        mainscene:
-          preset: 4  # Section Fire
-    - time: 145
+          preset: 1  # BluePink Movement
+    - time: 73.28
       controllers:
         group:
           controllers: [sword1, sword2, sword3]
-          preset: 12  # Black
+          preset: 1  # BluePink Movement
         mainscene:
-          preset: 9  # AuroraEffect
-    - time: 146.8
+          preset: 8 # Bright Room
+    - time: 77.9
       controllers:
         group:
           controllers: [sword1, sword2, sword3]
-          preset: 10  # Flash
+          preset: 16  # Rumi Lowered
         mainscene:
-          preset: 10  # FLASH
-    - time: 147.8
+          preset: 12 # Red Aura
+    - time: 94.11
       controllers:
         group:
           controllers: [sword1, sword2, sword3]
-          preset: 1  # Preset 1
+          preset: 16  # Rumi Lowered
         mainscene:
-          preset: 1  # Solid - Amber Glow
-    - time: 159.8
-      controllers:
-        group:
-          controllers: [sword1, sword2, sword3]
-          preset: 11  # Faster
-        mainscene:
-          preset: 4  # Section Fire
-    - time: 174.5
-      controllers:
-        group:
-          controllers: [sword1, sword2, sword3]
-          preset: 12  # Black
-        mainscene:
-          preset: 6  # MovieTime
-
+          preset: 12 # Red Aura
+    # - time: 0.1
+    #   controllers:
+    #     group:
+    #       controllers: [sword1, sword2, sword3]
+    #       preset: 16  # Rumi Lowered
+    #     mainscene:
+    #       preset: 12 # Red Aura
+    # - time: 0.1
+    #   controllers:
+    #     group:
+    #       controllers: [sword1, sword2, sword3]
+    #       preset: 16  # Rumi Lowered
+    #     mainscene:
+    #       preset: 12 # Red Aura
+    # - time: 0.1
+    #   controllers:
+    #     group:
+    #       controllers: [sword1, sword2, sword3]
+    #       preset: 16  # Rumi Lowered
+    #     mainscene:
+    #       preset: 12 # Red Aura
