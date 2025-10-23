@@ -6,14 +6,14 @@ songs:
           controllers: [sword1, sword2, sword3]
           preset: 14  # Rumi Normal
         mainscene:
-          preset: 11  # Solid - Amber Glow
+          preset: 1  # Solid - Amber Glow
     - time: 7.6
       controllers:
         group:
           controllers: [sword1, sword2, sword3]
           preset: 2  # Preset 2
         mainscene:
-          preset: 7  # Subway Train
+          preset: 11  # Faster
     - time: 15
       controllers:
         group:
@@ -219,7 +219,7 @@ songs:
       controllers:
         group:
           controllers: [sword1, sword2, sword3]
-          preset: 8  # Rumi Normal
+          preset: 8
         mainscene:
           preset: 1  # Solid - Amber Glow
     - time: 28

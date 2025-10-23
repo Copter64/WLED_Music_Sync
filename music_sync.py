@@ -515,8 +515,10 @@ def load_timings_from_yaml(path: str) -> Dict[str, List[TimedEvent]]:
 # endregion
 
 # region CLI and main
-def find_song_file(timing_map: Dict[str, List[TimedEvent]], song_hint: str, yaml_dir: str) -> str:
+def find_song_file(timing_map: Dict[str, List[TimedEvent]], song_hint: str) -> str:
     """Find the full path to a song file based on a partial name match."""
+    from wled_music_sync.path_config import path_config
+    
     if not song_hint:
         print("\nAvailable songs:")
         for idx, song in enumerate(timing_map.keys(), 1):
@@ -532,7 +534,7 @@ def find_song_file(timing_map: Dict[str, List[TimedEvent]], song_hint: str, yaml
     # Try exact match first
     for song_name in timing_map.keys():
         if song_hint.lower() == song_name.lower():
-            return os.path.join(yaml_dir, "KPopDH", song_name)
+            return os.path.join(path_config.get_songs_path(), song_name)
         
     # Try partial match
     matches = [s for s in timing_map.keys() 
@@ -548,12 +550,12 @@ def find_song_file(timing_map: Dict[str, List[TimedEvent]], song_hint: str, yaml
         try:
             idx = int(choice)
             if 1 <= idx <= len(matches):
-                return os.path.join(yaml_dir, "KPopDH", matches[idx-1])
+                return os.path.join(path_config.get_songs_path(), matches[idx-1])
         except ValueError:
             pass
         raise ValueError("Invalid selection")
     
-    return os.path.join(yaml_dir, "KPopDH", matches[0])
+    return os.path.join(path_config.get_songs_path(), matches[0])
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Music + WLED show controller.")
@@ -563,12 +565,14 @@ def parse_args() -> argparse.Namespace:
     return p.parse_args()
 
 async def main_async(args: argparse.Namespace) -> None:
-    # Load timings
-    timing_map = load_timings_from_yaml(args.timings)
-    yaml_dir = os.path.dirname(os.path.abspath(args.timings))
+    # Load path configuration
+    from wled_music_sync.path_config import path_config
+    
+    # Load timings from configured path
+    timing_map = load_timings_from_yaml(args.timings or path_config.get_config_path('timings'))
     
     # Find and validate song
-    song_path = find_song_file(timing_map, args.song or "", yaml_dir)
+    song_path = find_song_file(timing_map, args.song or "")
     song_key = os.path.basename(song_path)
     if song_key not in timing_map:
         raise ValueError(f"No timing data found for '{song_key}'")
@@ -577,7 +581,7 @@ async def main_async(args: argparse.Namespace) -> None:
     LOGGER.info("Playing %s with %d events", song_key, len(events))
     
     # Load controllers from YAML configuration
-    from halloween_leds.controller_config import load_controller_config
+    from wled_music_sync.controller_config import load_controller_config
     controller_configs = load_controller_config()
     
     # Initialize controllers
@@ -599,7 +603,7 @@ async def main_async(args: argparse.Namespace) -> None:
             loop = asyncio.get_running_loop()
             await loop.run_in_executor(None, player.play, song_path)
         else:
-            LOGGER.error("Song file not found: %s (expected in %s)", song_key, yaml_dir)
+            LOGGER.error("Song file not found: %s (expected in songs directory)", song_key)
             return
         current_event_index = 0
         last_time = None
