@@ -1,0 +1,20 @@
+Preset 2: BluePink Static
+Preset 3: Rainbow
+Preset 10: Flash
+Preset 11: Faster
+Preset 12: Black
+Preset 14: Rumi Normal
+Preset 15: HalfSpeed
+Preset 16: Rumi Lowered
+Preset 5: Green Shimmer
+Preset 4: Sparkles
+Preset 6: DrumHits
+Preset 7: Golden
+Preset 1: BluePink Movement
+Preset 8: Ha Breath
+Preset 9: Piano Hit Mid
+Preset 13: Piano Hit High
+Preset 17: Piano Hit Low
+Preset 18: Movement
+Preset 19: Color Change 1
+Preset 20: Color Change 2

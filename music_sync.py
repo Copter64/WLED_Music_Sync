@@ -166,18 +166,26 @@ class WLEDController:
 
 # region Music Player
 class MusicPlayer:
-    """Lightweight pygame-based player with keyboard controls."""
+    """Lightweight pygame-based player with keyboard controls and song selection."""
     def __init__(self):
         pygame.mixer.init()
         pygame.init()  # Initialize pygame for event handling
         
         # Create a larger control window
         self._window = pygame.display.set_mode((800, 400))
-        pygame.display.set_caption("Music Controls")
+        pygame.display.set_caption("WLED Music Sync")
+        
+        # Force the window to be focused and centered
+        info = pygame.display.Info()
+        os.environ['SDL_VIDEO_WINDOW_POS'] = f"{(info.current_w - 800) // 2},{(info.current_w - 400) // 2}"
+        pygame.display.set_allow_screensaver(False)  # Prevent screensaver during playback
+        pygame.event.clear()  # Clear any pending events
+        pygame.display.flip()  # Update the display
         
         # Initialize fonts for display
         self._font = pygame.font.Font(None, 48)  # Larger main font
         self._small_font = pygame.font.Font(None, 36)  # Smaller font for status
+        self._title_font = pygame.font.Font(None, 60)  # Large font for titles
         
         self._start_time = None
         self._paused = False
@@ -185,13 +193,17 @@ class MusicPlayer:
         self._file_path = None
         self._volume = 1.0
         self._song_finished = False
+        self._in_song_select = True  # Start in song selection mode
+        self._available_songs = []   # Will be populated with song list
+        self._song_buttons = []      # List of (rect, song_name) tuples
+        self._hover_index = -1       # Index of button being hovered
         pygame.mixer.music.set_volume(self._volume)
         
         # Set up the end of song event
         pygame.mixer.music.set_endevent(pygame.USEREVENT + 1)
         
-        # Draw initial controls
-        self._draw_controls()
+        # Draw initial menu
+        self._draw_song_select()
 
     def play(self, file_path: str) -> None:
         if not os.path.isfile(file_path):
@@ -280,11 +292,33 @@ class MusicPlayer:
         pygame.display.flip()
 
     def handle_events(self) -> bool:
-        """Handle keyboard events. Returns False if should quit, None if song finished."""
+        """Handle keyboard and mouse events. Returns False if should quit, None if song finished."""
         for event in pygame.event.get():
             if event.type == pygame.USEREVENT + 1:  # End of song
                 self._song_finished = True
+                self._current_pos = time.perf_counter() - self._start_time  # Save final position
+                self._start_time = None  # Stop the timer
+                self._in_song_select = True  # Return to song selection
                 return None
+
+            # Handle mouse events for song selection
+            if self._in_song_select:
+                if event.type == pygame.MOUSEMOTION:
+                    # Update hover state
+                    mouse_pos = pygame.mouse.get_pos()
+                    self._hover_index = -1
+                    for i, (rect, _) in enumerate(self._song_buttons):
+                        if rect.collidepoint(mouse_pos):
+                            self._hover_index = i
+                            break
+
+                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    # Handle song selection click
+                    mouse_pos = pygame.mouse.get_pos()
+                    for rect, song in self._song_buttons:
+                        if rect.collidepoint(mouse_pos):
+                            self._in_song_select = False
+                            return song  # Return selected song name
                 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:  # Play/Pause
@@ -357,9 +391,66 @@ class MusicPlayer:
             elif event.type == pygame.QUIT:
                 return False
 
-        # Update display
-        self._draw_controls()
+        # Update appropriate display
+        if self._in_song_select:
+            self._draw_song_select()
+        else:
+            self._draw_controls()
         return True
+
+    def _draw_song_select(self):
+        """Draw the song selection menu"""
+        self._window.fill((0, 0, 0))  # Black background
+        
+        # Draw title
+        title = self._title_font.render("Song Selection", True, (255, 255, 255))
+        title_rect = title.get_rect(centerx=self._window.get_width() // 2, y=20)
+        self._window.blit(title, title_rect)
+        
+        # Draw song buttons
+        self._song_buttons = []  # Reset button list
+        y = 100
+        button_height = 50
+        button_padding = 10
+        
+        for i, song in enumerate(self._available_songs):
+            if y + button_height > self._window.get_height() - 60:  # Leave space for status
+                break
+                
+            button_color = (60, 60, 60)
+            if i == self._hover_index:
+                button_color = (100, 100, 100)
+                
+            button_rect = pygame.Rect(40, y, self._window.get_width() - 80, button_height)
+            pygame.draw.rect(self._window, button_color, button_rect, border_radius=5)
+            
+            song_text = self._font.render(song, True, (255, 255, 255))
+            text_rect = song_text.get_rect(midleft=(50, y + button_height // 2))
+            self._window.blit(song_text, text_rect)
+            
+            self._song_buttons.append((button_rect, song))
+            y += button_height + button_padding
+        
+        # Draw instructions at bottom
+        if self._song_finished:
+            status = "Select a song to play"
+        else:
+            status = "Click a song or press Q to quit"
+        status_surface = self._font.render(status, True, (200, 200, 200))
+        status_rect = status_surface.get_rect(centerx=self._window.get_width() // 2, bottom=self._window.get_height() - 20)
+        self._window.blit(status_surface, status_rect)
+        
+        pygame.display.flip()
+
+    def set_available_songs(self, songs):
+        """Set the list of available songs for the selection menu"""
+        self._available_songs = list(songs)
+        if self._in_song_select:
+            self._draw_song_select()
+
+    def get_selected_song(self):
+        """Return the currently selected song, if any"""
+        return self._file_path
 # endregion
 
 # region Scene Scheduler
@@ -515,45 +606,9 @@ def load_timings_from_yaml(path: str) -> Dict[str, List[TimedEvent]]:
 # endregion
 
 # region CLI and main
-def find_song_file(timing_map: Dict[str, List[TimedEvent]], song_hint: str, yaml_dir: str) -> str:
-    """Find the full path to a song file based on a partial name match."""
-    if not song_hint:
-        print("\nAvailable songs:")
-        for idx, song in enumerate(timing_map.keys(), 1):
-            print(f"{idx}. {song}")
-        choice = input("\nSelect song number or enter name: ").strip()
-        try:
-            idx = int(choice)
-            if 1 <= idx <= len(timing_map):
-                song_hint = list(timing_map.keys())[idx-1]
-        except ValueError:
-            song_hint = choice
-
-    # Try exact match first
-    for song_name in timing_map.keys():
-        if song_hint.lower() == song_name.lower():
-            return os.path.join(yaml_dir, "KPopDH", song_name)
-        
-    # Try partial match
-    matches = [s for s in timing_map.keys() 
-              if song_hint.lower() in s.lower()]
-    
-    if not matches:
-        raise ValueError(f"No song matching '{song_hint}' found in timing configuration")
-    elif len(matches) > 1:
-        print("\nMultiple matches found:")
-        for idx, song in enumerate(matches, 1):
-            print(f"{idx}. {song}")
-        choice = input("\nSelect song number: ").strip()
-        try:
-            idx = int(choice)
-            if 1 <= idx <= len(matches):
-                return os.path.join(yaml_dir, "KPopDH", matches[idx-1])
-        except ValueError:
-            pass
-        raise ValueError("Invalid selection")
-    
-    return os.path.join(yaml_dir, "KPopDH", matches[0])
+def find_song_file(timing_map: Dict[str, List[TimedEvent]], song_name: str, yaml_dir: str) -> str:
+    """Find the full path to a song file."""
+    return os.path.join(yaml_dir, "KPopDH", song_name)
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Music + WLED show controller.")
@@ -564,19 +619,14 @@ def parse_args() -> argparse.Namespace:
 
 async def main_async(args: argparse.Namespace) -> None:
     # Load timings
+    LOGGER.info("Loading timings from %s", args.timings)
     timing_map = load_timings_from_yaml(args.timings)
+    LOGGER.info("Found %d songs in timing map", len(timing_map))
     yaml_dir = os.path.dirname(os.path.abspath(args.timings))
-    
-    # Find and validate song
-    song_path = find_song_file(timing_map, args.song or "", yaml_dir)
-    song_key = os.path.basename(song_path)
-    if song_key not in timing_map:
-        raise ValueError(f"No timing data found for '{song_key}'")
-    
-    events = timing_map[song_key]
-    LOGGER.info("Playing %s with %d events", song_key, len(events))
+    LOGGER.info("Base directory: %s", yaml_dir)
     
     # Load controllers from YAML configuration
+    LOGGER.info("Loading controller configuration")
     from halloween_leds.controller_config import load_controller_config
     controller_configs = load_controller_config()
     
@@ -590,57 +640,74 @@ async def main_async(args: argparse.Namespace) -> None:
         ]
         LOGGER.info(f"Initialized {controller_id} ({config.description}) with {len(config.urls)} URLs")
     LOGGER.info("Loaded controllers: %s", list(controllers.keys()))
+    
+
 
     player = MusicPlayer()
     scheduler = SceneScheduler(controllers, dry_run=args.dry_run)
 
     try:
-        if os.path.isfile(song_path):
-            loop = asyncio.get_running_loop()
-            await loop.run_in_executor(None, player.play, song_path)
-        else:
-            LOGGER.error("Song file not found: %s (expected in %s)", song_key, yaml_dir)
-            return
-        current_event_index = 0
-        last_time = None
+        # Initialize the player with available songs
+        player = MusicPlayer()
+        player.set_available_songs(timing_map.keys())
+        scheduler = SceneScheduler(controllers, dry_run=args.dry_run)
+        
+        while True:  # Main program loop
+            if player._in_song_select:
+                # Handle song selection mode
+                result = player.handle_events()
+                if result is False:  # Quit requested
+                    LOGGER.info("Quit requested from song selection")
+                    break
+                elif isinstance(result, str):  # Song selected
+                    song_key = result
+                    song_path = os.path.join(yaml_dir, "KPopDH", song_key)
+                    
+                    if os.path.isfile(song_path):
+                        LOGGER.info("Starting playback of %s", song_key)
+                        player._in_song_select = False
+                        player._song_finished = False
+                        events = timing_map[song_key]
+                        loop = asyncio.get_running_loop()
+                        await loop.run_in_executor(None, player.play, song_path)
+                        current_event_index = 0
+                        last_time = None
+                    else:
+                        LOGGER.error("Song file not found: %s", song_path)
+            else:
+                # Handle playback mode
+                result = player.handle_events()
+                if result is False:  # Quit requested
+                    LOGGER.info("Quit requested during playback")
+                    break
+                elif result is None:  # Song finished
+                    LOGGER.info("Song finished")
+                    player._in_song_select = True  # Return to song selection
+                    continue
 
-        while True:
-            result = player.handle_events()  # Handle keyboard controls
-            if result is False:  # Quit requested
-                LOGGER.info("Quit requested")
-                break
-            elif result is None:  # Song finished
-                LOGGER.info("Song finished")
-                # Keep window open but stop processing events
-                while True:
-                    result = player.handle_events()
-                    if result is False:  # Quit requested
-                        break
-                    pygame.display.flip()
-                    await asyncio.sleep(0.05)
-                break
+                # Process events during playback
+                current_time = player.playback_elapsed()
+                if current_time is None:
+                    continue
 
-            current_time = player.playback_elapsed()
-            if current_time is None:
-                continue
+                # Only process events if time has moved forward
+                if last_time is None or current_time > last_time:
+                    while (current_event_index < len(events) and 
+                           events[current_event_index].time_s <= current_time):
+                        await scheduler._dispatch_event(events[current_event_index])
+                        current_event_index += 1
+                
+                # If we went backwards, find the new position in events
+                elif current_time < last_time:
+                    current_event_index = 0
+                    while (current_event_index < len(events) and 
+                           events[current_event_index].time_s <= current_time):
+                        current_event_index += 1
 
-            # Only process events if time has moved forward
-            if last_time is None or current_time > last_time:
-                # Process any events that should have happened by now
-                while (current_event_index < len(events) and 
-                       events[current_event_index].time_s <= current_time):
-                    await scheduler._dispatch_event(events[current_event_index])
-                    current_event_index += 1
+                last_time = current_time
             
-            # If we went backwards, find the new position in events
-            elif current_time < last_time:
-                current_event_index = 0
-                while (current_event_index < len(events) and 
-                       events[current_event_index].time_s <= current_time):
-                    current_event_index += 1
+            await asyncio.sleep(0.05)  # Prevent CPU overuse
 
-            last_time = current_time
-            await asyncio.sleep(0.05)  # More responsive control checks
     finally:
         await scheduler.close()
         player.stop()

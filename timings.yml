@@ -373,6 +373,244 @@ songs:
           preset: 12  # Black
         mainscene:
           preset: 9  # AuroraEffect
+  "08 - Free.mp3":
+    - time: 0.27  # Blue Subtle Env and Piano high
+      description: "Initial blue environment with high piano note"
+      controllers:
+        mainscene:
+          preset: 9 #AuroraEffect
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 13  # Piano Hit High
+    - time: 3.72  # Piano hit mid
+      description: "Piano hit middle tone"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 9   # Piano Hit Mid
+    - time: 7.07  # Piano hit low
+      description: "Piano hit low tone"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 17  # Piano Hit Low
+    - time: 10.52  # Piano hit mid
+      description: "Piano hit middle tone"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 9   # Piano Hit Mid
+    - time: 14.06  # Piano hit up and sword 1 up
+      description: "Piano hit high with sword 1 movement"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 13  # Piano Hit High
+    - time: 17.41  # Piano Hit mid
+      description: "Piano hit middle tone"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 9   # Piano Hit Mid
+    - time: 20.71  # Piano Hit low
+      description: "Piano hit low tone"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 17  # Piano Hit Low
+    - time: 24.51  # Piano Hit mid
+      description: "Piano hit middle tone"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 9   # Piano Hit Mid
+    - time: 27.86  # Piano hit up
+      description: "Piano hit high"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 13  # Piano Hit High
+    - time: 31.53  # Piano Hit mid
+      description: "Piano hit middle tone"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 9   # Piano Hit Mid
+    - time: 34.93  # Piano Hit low
+      description: "Piano hit low tone"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 17  # Piano Hit Low
+    - time: 38.83  # Piano Hit mid
+      description: "Piano hit middle tone"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 9   # Piano Hit Mid
+    - time: 42.06  # Dim All
+      description: "All lights dim"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 12  # Black
+    - time: 43.28  # Slow Build Env
+      description: "Slow intensity build"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 1   # BluePink Movement
+    - time: 44.33  # Flash
+      description: "Quick flash effect"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 10  # Flash
+    - time: 44.86  # Movement
+      description: "Movement effect"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 18  # Movement
+    - time: 58.03  # Color Change 1
+      description: "First color transition"
+      controllers:
+        mainscene:
+          preset: 19  # Color Change 1
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 19  # Color Change 1
+    - time: 71.73  # Color Change 2
+      description: "Second color transition"
+      controllers:
+        mainscene:
+          preset: 20  # Color Change 2
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 20  # Color Change 2
+    - time: 85.38  # Dim
+      description: "Lights dim"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 12  # Black
+    - time: 92.00  # Fast Tempo
+      description: "Increased speed effect"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 11  # Faster
+    - time: 98.61  # Dim
+      description: "Lights dim"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 12  # Black
+    - time: 99.16  # Flash
+      description: "Quick flash effect"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 10  # Flash
+    - time: 100.01  # Ha Breath
+      description: "Ha Breath effect"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 8   # Ha Breath
+    - time: 109.37  # Multiple Swords Bright
+      description: "All swords bright"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 1   # Default - BluePink Movement
+    - time: 112.03  # Dim
+      description: "Lights dim"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 12  # Black
+    - time: 112.76  # Flash
+      description: "Quick flash effect"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 10  # Flash
+    - time: 113.83  # Sparkles
+      description: "Sparkle effect"
+      controllers:
+        mainscene:
+          preset: 4   # Sparkles
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 4   # Sparkles
+    - time: 126.79  # Sword 1 - Rumi Normal
+      description: "Sword 1 Rumi Normal"
+      controllers:
+        sword1:
+          preset: 14  # Rumi Normal
+    - time: 140.30
+      description: "Quick flash effect"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 10  # Flash
+    - time: 147.51  # Sword 2- Rumi Normal
+      description: "Sword 2 Rumi Normal"
+      controllers:
+        sword2:
+          preset: 14  # Rumi Normal
+    - time: 154.04  # Bass Hit
+      description: "Bass impact effect"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 6   # DrumHits
+    - time: 161.07  # Sword 3 - Rumi Normal
+      description: "Sword 3 Rumi Normal"
+      controllers:
+        sword3:
+          preset: 14  # Rumi Normal
+    - time: 163.70
+      description: "Golden effect"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 7   # Golden
+    - time: 167.69  # Rumi Lowered
+      description: "Rumi Lowered effect"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 16  # Rumi Lowered
+    - time: 171.01
+      description: "Piano hit high"
+      controllers:
+        mainscene:
+          preset: 9
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 13  # Piano Hit High
+    - time: 174.60  # Piano Hit Mid
+      description: "Piano hit middle"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 9   # Piano Hit Mid
+    - time: 178.04  # Piano Hit Low
+      description: "Piano hit low"
+      controllers:
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 17  # Piano Hit Low
+    - time: 182.00  # Black
+      description: "All lights off"
+      controllers:
+        mainscene:
+          preset: 12  # Black
+        group:
+          controllers: [sword1, sword2, sword3]
+          preset: 12  # Black
   "09 - What It Sounds Like - shorter.mp3":
     - time: 0.1
       controllers:
