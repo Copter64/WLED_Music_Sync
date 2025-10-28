@@ -5,7 +5,6 @@
 .venv/*
 .venv*
 build/*
-*.exe
 release/*
 *.zip
 *.spec
