@@ -12,4 +12,3 @@ release/*
 *.spec
 *.yml
 __pycache__/
-timings.yml
