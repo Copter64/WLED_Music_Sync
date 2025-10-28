@@ -11,6 +11,8 @@ import argparse
 import asyncio
 import logging
 import os
+import tkinter as tk
+from tkinter import filedialog
 
 import pygame
 from wled_music_sync import (
@@ -24,16 +26,42 @@ from wled_music_sync import (
 
 LOGGER = logging.getLogger("music_wled_player")
 
+def select_timing_file() -> str:
+    """Show a file dialog to select the timing configuration file."""
+    root = tk.Tk()
+    root.withdraw()  # Hide the main window
+    timing_file = filedialog.askopenfilename(
+        title="Select Timing Configuration File",
+        filetypes=[("YAML files", "*.yml *.yaml"), ("All files", "*.*")],
+        initialdir=os.getcwd()
+    )
+    return timing_file if timing_file else None
+
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Music + WLED show controller.")
     p.add_argument("--song", required=False, help="Song name or number (optional, will prompt if not provided)")
-    p.add_argument("--timings", required=True, help="Path to YAML timing configuration")
+    p.add_argument("--timings", required=False, help="Path to YAML timing configuration (optional, will prompt if not provided)")
     p.add_argument("--dry-run", action="store_true", help="Print actions without sending to WLED")
-    return p.parse_args()
+    args = p.parse_args()
+    
+    # If timings file not specified, show file dialog
+    if not args.timings:
+        LOGGER.info("No timing file specified, opening file selector...")
+        timing_file = select_timing_file()
+        if not timing_file:
+            LOGGER.error("No timing file selected. Exiting.")
+            raise SystemExit(1)
+        args.timings = timing_file
+    
+    return args
 
 async def main_async(args: argparse.Namespace) -> None:
     # Load timings
     LOGGER.info("Loading timings from %s", args.timings)
+    if not os.path.exists(args.timings):
+        LOGGER.error("Timing file not found: %s", args.timings)
+        raise SystemExit(1)
+        
     timing_map = load_timings_from_yaml(args.timings)
     LOGGER.info("Found %d songs in timing map", len(timing_map))
     yaml_dir = os.path.dirname(os.path.abspath(args.timings))
