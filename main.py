@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Main entry point for WLED Music Sync application.
+WLED Music Sync - Synchronized LED light shows with music playback
+Copyright (c) 2025 Copter64
+SPDX-License-Identifier: MIT
+
+This is the main entry point for the WLED Music Sync application.
 """
 import argparse
 import asyncio

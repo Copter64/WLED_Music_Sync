@@ -225,6 +225,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 The MIT License is a permissive license that is short and to the point. It lets people do anything they want with your code as long as they provide attribution back to you and don't hold you liable.
 
+### Music Copyright Notice
+
+This software is designed to play MP3 files for synchronized light shows. Please note:
+- The software itself is MIT licensed, but this does not include any music files
+- Users must ensure they have proper rights/licenses for any music they use
+- Sample timings may reference song names but do not include the actual music files
+- Do not redistribute copyrighted music files with this software
+
 ## Acknowledgments
 
 - WLED Project (https://github.com/Aircoookie/WLED)

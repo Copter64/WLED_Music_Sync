@@ -1,5 +1,10 @@
 """
 LED Light Show Controller with Music Synchronization
+
+Copyright (c) 2025 Copter64
+SPDX-License-Identifier: MIT
+
+This module provides synchronized music playback with WLED light control.
 """
 
 __version__ = "1.0.0"
