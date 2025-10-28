@@ -30,8 +30,7 @@ A music synchronization application for WLED light controllers, featuring an eas
    ├── config/
    │   └── controllers.yml # WLED device settings
    └── songs/             # Your music files
-       ├── song1.mp3
-       └── song1.txt      # Timing file for song1
+       └── song1.mp3      # Music files go here
    ```
 
 ### Running the Application
@@ -85,9 +84,8 @@ For detailed information about timing configuration, including all available opt
 ## Adding New Songs
 
 1. Add the MP3 file to the `songs` directory
-2. Create a timing file in the `songs` directory with the same name
-3. Add the song entry to `timings.yml`
-4. Update any preset mappings in `controller_presets.txt` if needed
+2. Add the song entry to `timings.yml` with your desired light show configuration
+3. Update any preset mappings in `controller_presets.txt` if needed
 
 ## Troubleshooting
 
@@ -155,8 +153,7 @@ HalloweenLEDs/
 │   └── controllers.yml     # WLED configuration
 │
 ├── songs/                  # Media files
-│   ├── *.mp3              # Music files
-│   └── *.txt              # Timing files
+│   └── *.mp3              # Music files
 │
 └── wled_music_sync/       # Main package
     ├── __init__.py
@@ -363,7 +360,6 @@ A standalone Windows executable is provided that doesn't require Python installa
 
 2. Missing Songs
    - Verify MP3 files are in the `songs` directory
-   - Check timing file names match song files
    - Validate entries in `timings.yml`
 
 3. Playback Issues
