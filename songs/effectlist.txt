@@ -1,0 +1,11 @@
+Effects List
+
+1 - Rumi Normal
+4 - Sparkles
+10 - Flash
+11 - Faster
+12 - Black
+13 - HipHop
+14 - Rumi Normal
+15 - Halfspeed
+16 - Rumi Lowered

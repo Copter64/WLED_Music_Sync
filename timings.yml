@@ -694,24 +694,3 @@ songs:
           preset: 16  # Rumi Lowered
         mainscene:
           preset: 12 # Red Aura
-    # - time: 0.1
-    #   controllers:
-    #     group:
-    #       controllers: [sword1, sword2, sword3]
-    #       preset: 16  # Rumi Lowered
-    #     mainscene:
-    #       preset: 12 # Red Aura
-    # - time: 0.1
-    #   controllers:
-    #     group:
-    #       controllers: [sword1, sword2, sword3]
-    #       preset: 16  # Rumi Lowered
-    #     mainscene:
-    #       preset: 12 # Red Aura
-    # - time: 0.1
-    #   controllers:
-    #     group:
-    #       controllers: [sword1, sword2, sword3]
-    #       preset: 16  # Rumi Lowered
-    #     mainscene:
-    #       preset: 12 # Red Aura

@@ -1,0 +1,26 @@
+controllers:
+  mainscene:
+    urls:
+      - http://192.168.1.123
+    description: "Main Scene Controller Group"
+    type: "WLED"
+    
+  sword1:
+    urls:
+      - http://192.168.1.12
+    description: "First Sword Controller"
+    type: "WLED"
+    
+  sword2:
+    urls:
+      - http://192.168.1.13
+    description: "Second Sword Controller"
+    type: "WLED"
+    
+  sword3:
+    urls:
+      - http://192.168.1.14
+    description: "Third Sword Controller"
+    type: "WLED"
+
+#Using this as a future example for how we could store controller info

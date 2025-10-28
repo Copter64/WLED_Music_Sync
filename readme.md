@@ -1,104 +1,191 @@
-⚙️ Usage Examples
-🧩 Upload a single preset (temporary)
-```
-python wled_preset_uploader.py --ip 192.168.1.186 --file preset1.json
-```
-💾 Upload a single preset and save it
-```
-python wled_preset_uploader.py --ip 192.168.1.186 --file preset1.json --save
-```
-📦 Bulk upload all presets in a folder
-```
-python wled_preset_uploader.py --ip 192.168.1.12 --dir ./presets
-```
-💾 Bulk upload and save each preset in sequential slots
-```
-python wled_preset_uploader.py --ip 192.168.1.12 --dir ./presets --save
-```
+# WLED Music Sync Controller
 
+A Python application for synchronizing music playback with WLED light controllers. This application provides a graphical interface for music selection and playback while coordinating light shows with WLED-enabled devices.
 
+## Features
+
+- 🎵 Interactive GUI for music selection and playback
+- 🎨 WLED controller integration with preset and scene support
+- ⚡ Real-time synchronization of music and light events
+- 🎮 Keyboard and mouse controls for playback
+- 📊 Detailed logging and error handling
+- 🔄 Automatic session cleanup and resource management
+
+## Prerequisites
+
+- Python 3.9 or higher
+- WLED-enabled device(s) on your network
 
 ## Installation
 
-### Method 1: Install from Source
-1. Clone this repository:
-   ```
-   git clone <your-repo-url>
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Copter64/HalloweenLEDs.git
    cd HalloweenLEDs
    ```
 
-2. Install with pip:
-   ```
-   pip install -e .
-   ```
-
-3. Create a `.env` file with your WLED controller IPs:
-   ```
-   WLED_CONTROLLERS=sword1=http://192.168.1.186,mainscene=http://192.168.1.187
+2. Install required Python packages:
+   ```bash
+   pip install -r requirements.txt
    ```
 
-### Method 2: Download Executable
-1. Download the latest release from the releases page
-2. Extract the zip file
-3. Create a `.env` file as described above
-4. Run the executable
+Required Python packages:
+- aiohttp: For async HTTP communication with WLED controllers
+- pygame: For music playback and GUI
+- pyyaml: For configuration file parsing
+- typing: For type hints (included with Python 3.9+)
 
-## Running the Application
-
-To run the music sync app:
+## Project Structure
 ```
-music-sync --timings timings.yml
+HalloweenLEDs/
+├── main.py                  # Main application entry point
+├── requirements.txt         # Python dependencies
+├── timings.yml             # Light show timing configuration
+├── controller_presets.txt   # List of controller presets
+├── fetch_presets.py        # Script to fetch WLED presets
+├── update_preset_comments.py # Script to update preset comments
+├── wled_preset_uploader.py  # Script to upload presets to WLED
+│
+├── config/
+│   └── controllers.yml     # WLED controller configuration
+│
+├── songs/                  # Music and timing files
+│   ├── *.mp3              # Music files
+│   └── *.txt              # Timing files for songs
+│
+└── wled_music_sync/       # Main package
+    ├── __init__.py
+    ├── config.py          # Configuration loading
+    ├── config_loader.py   # Controller config loading
+    ├── controller.py      # WLED controller interface
+    ├── gui.py            # PyGame-based music player
+    ├── models.py         # Data models
+    └── scheduler.py      # Event scheduling
 ```
 
-Or if using the executable:
+## Configuration
+
+### Controller Configuration (config/controllers.yml)
+```yaml
+controllers:
+  controller_id:
+    urls: 
+      - "http://wled-device1.local"
+      - "http://wled-device2.local"
+    description: "Controller description"
+    type: "WLED"
 ```
-halloween-leds --timings timings.yml
+
+### Timing Configuration (timings.yml)
+```yaml
+songs:
+  "song-file.mp3":
+    - time: 0.0
+      controllers:
+        controller_id:
+          preset: 1
+    - time: 5.0
+      controllers:
+        controller_id:
+          scene:
+            on: true
+            fx: 85
 ```
 
-## SMPTE Timecode Support
+## Usage
 
-The application now includes support for SMPTE timecode synchronization, allowing you to sync your WLED effects with external timecode sources such as video systems, audio workstations, or show control systems.
+### Main Application
+Run the music sync application:
+```bash
+python main.py --timings timings.yml
+```
 
-### Using Timecode Sync
+### Command Line Arguments
+- `--timings`: Path to the YAML timing configuration file (required)
+- `--song`: Specific song to play (optional)
+- `--dry-run`: Test mode - logs actions without sending to controllers
 
-1. Install the additional dependency:
-   ```
-   pip install timecode
-   ```
+### Playback Controls
+- Space: Play/Pause
+- Left/Right: Seek ±5 seconds
+- Page Up/Down: Seek ±30 seconds
+- Up/Down: Volume control
+- R: Restart current song
+- Q: Quit application
 
-2. Configure your timecode settings in your application:
-   ```python
-   from halloween_leds.timecode_sync import TimecodeSync, TimecodeConfig
+### Utility Scripts
+- `fetch_presets.py`: Retrieve presets from WLED controllers
+- `update_preset_comments.py`: Update preset comments
+- `wled_preset_uploader.py`: Upload presets to WLED controllers
 
-   config = TimecodeConfig(
-       framerate=24,  # Set to match your timecode source (24, 25, 29.97, 30)
-       drop_frame=False,
-       start_tc="00:00:00:00"
-   )
-   ```
+## Development
 
-3. Initialize the timecode sync with your existing timing file:
-   ```python
-   tc_sync = TimecodeSync.from_yaml_file("timings.yml", config)
-   ```
+### Key Components
 
-### Example Usage
+1. **MusicPlayer (gui.py)**
+   - Graphical interface for song selection
+   - Music playback controls
+   - Real-time playback status
 
-Check out `examples/timecode_example.py` for a complete example of how to:
-- Set up timecode synchronization
-- Connect to WLED controllers
-- Handle timecode-triggered events
+2. **WLEDController (controller.py)**
+   - WLED device communication
+   - Preset and scene management
+   - Connection handling and timeout management
 
-### Features
-- Support for various framerates (24, 25, 29.97, 30 fps)
-- Drop-frame and non-drop-frame timecode
-- Configurable starting timecode
-- Asynchronous timecode monitoring
-- Compatible with existing YAML timing files
-- Seamless integration with current WLED control system
+3. **SceneScheduler (scheduler.py)**
+   - Event timing and dispatch
+   - Controller synchronization
+   - Error handling and recovery
 
-### Common Timecode Sources
-- Audio interfaces with LTC input
-- Video systems
-- Show control software
-- Network timecode (NTP)
+4. **Configuration (config.py, config_loader.py)**
+   - YAML configuration parsing
+   - Controller setup
+   - Timing sequence management
+
+### Error Handling
+- Automatic session cleanup
+- Connection timeout handling
+- Resource management
+- Detailed logging
+
+## Adding New Songs
+
+1. Add the MP3 file to the `songs` directory
+2. Create a timing file in the `songs` directory with the same name
+3. Add the song entry to `timings.yml`
+4. Update any preset mappings in `controller_presets.txt` if needed
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## Troubleshooting
+
+### Common Issues
+1. WLED Connection Failures
+   - Verify controller URLs in `config/controllers.yml`
+   - Check network connectivity
+   - Ensure WLED devices are powered and connected
+
+2. Missing Songs
+   - Verify MP3 files are in the `songs` directory
+   - Check timing file names match song files
+   - Validate entries in `timings.yml`
+
+3. Playback Issues
+   - Check Python and pygame installation
+   - Verify audio device settings
+   - Check file permissions
+
+## License
+
+[Your License Here]
+
+## Acknowledgments
+
+- WLED Project (https://github.com/Aircoookie/WLED)
+- PyGame Community
