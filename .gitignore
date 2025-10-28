@@ -5,10 +5,8 @@
 .venv/*
 .venv*
 build/*
-KPopDH/*
 *.exe
 release/*
 *.zip
 *.spec
-*.yml
 __pycache__/
