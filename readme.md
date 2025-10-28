@@ -92,13 +92,66 @@ songs:
             fx: 85
 ```
 
+For detailed information about timing configuration, including all available options and examples, see [Timing Configuration Guide](readme_timings.md).
+
 ## Usage
 
-### Main Application
-Run the music sync application:
-```bash
-python main.py --timings timings.yml
-```
+### Development Mode
+
+To run the application in development mode:
+
+1. Set up your Python environment:
+   ```bash
+   python -m venv venv
+   .\venv\Scripts\activate  # Windows
+   pip install -r requirements.txt
+   ```
+
+2. Run the application:
+   ```bash
+   python main.py --timings timings.yml
+   ```
+
+3. Optional utility scripts for development:
+   ```bash
+   # Fetch presets from WLED controllers
+   python fetch_presets.py
+   
+   # Update preset comments
+   python update_preset_comments.py
+   
+   # Upload presets to WLED controllers
+   python wled_preset_uploader.py
+   ```
+
+### Production Mode (Windows Executable)
+
+A standalone Windows executable is provided that doesn't require Python installation:
+
+1. Required Files and Structure:
+   ```
+   WLEDMusicSync/
+   ├── WLEDMusicSync.exe   # The main executable
+   ├── timings.yml         # Light show timing configuration
+   ├── config/
+   │   └── controllers.yml # WLED controller configuration
+   └── songs/             # Music and timing files directory
+       ├── song1.mp3      # Music files
+       ├── song1.txt      # Timing file for song1
+       ├── song2.mp3
+       └── song2.txt
+   ```
+
+2. Run the executable:
+   ```bash
+   WLEDMusicSync.exe --timings timings.yml
+   ```
+
+3. Configuration Requirements:
+   - `config/controllers.yml`: Must contain your WLED device URLs
+   - `timings.yml`: Must list all songs and their timing events
+   - `songs/`: Directory must contain both MP3 and timing files
+   - All paths in configuration files should be relative to the executable
 
 ### Command Line Arguments
 - `--timings`: Path to the YAML timing configuration file (required)
@@ -113,7 +166,7 @@ python main.py --timings timings.yml
 - R: Restart current song
 - Q: Quit application
 
-### Utility Scripts
+### Utility Scripts (Development Only)
 - `fetch_presets.py`: Retrieve presets from WLED controllers
 - `update_preset_comments.py`: Update preset comments
 - `wled_preset_uploader.py`: Upload presets to WLED controllers
@@ -165,7 +218,7 @@ python main.py --timings timings.yml
 
 ## Troubleshooting
 
-### Common Issues
+### Common Issues (Development Mode)
 1. WLED Connection Failures
    - Verify controller URLs in `config/controllers.yml`
    - Check network connectivity
@@ -180,6 +233,32 @@ python main.py --timings timings.yml
    - Check Python and pygame installation
    - Verify audio device settings
    - Check file permissions
+
+### Common Issues (Production/Executable Mode)
+1. Missing DLL Errors
+   - Ensure the executable wasn't quarantined by antivirus
+   - Try running as administrator
+   - Install Microsoft Visual C++ Redistributable if needed
+
+2. File Not Found Errors
+   - Verify all required files are in the correct locations
+   - Check that `timings.yml` is in the same directory as the executable
+   - Ensure the `config` and `songs` directories are present
+
+3. WLED Connection Issues
+   - Check that the WLED devices are accessible from your network
+   - Verify the URLs in `config/controllers.yml` are correct
+   - Try using IP addresses instead of hostnames
+
+4. Audio Problems
+   - Check Windows audio settings
+   - Try running the executable as administrator
+   - Verify MP3 files are not corrupted
+
+5. Performance Issues
+   - Close other applications using significant CPU
+   - Ensure adequate free RAM (minimum 2GB recommended)
+   - Try running with `--dry-run` to test timing accuracy
 
 ## License
 
