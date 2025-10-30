@@ -2,6 +2,8 @@
 
 A music synchronization application for WLED light controllers, featuring an easy-to-use GUI for music playback while coordinating light shows with WLED-enabled devices.
 
+A youtube link to demo it in action - [WLED Demo](https://youtu.be/1OHeHshybiw "WLED Demo")
+
 ## Features
 
 - 🎵 Interactive GUI for music selection and playback
